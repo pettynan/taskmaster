@@ -5,22 +5,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+import java.util.List;
+
+@RestController
 public class TasksController {
 
     @Autowired
     TasksRepository tasksRepository;
 
     @GetMapping("/tasks")
-    public ResponseEntity<String> getTasks() {
+    public List getTasks() {
 
-
-        return new ResponseEntity<>(tasksRepository.findAll().toString(), HttpStatus.OK) ;
-
+        return (List)tasksRepository.findAll();
     }
-
-
 
 
 }
