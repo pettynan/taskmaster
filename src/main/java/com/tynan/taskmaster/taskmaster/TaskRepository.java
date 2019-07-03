@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 @EnableScan
-public interface TasksRepository extends CrudRepository<Tasks, String> {
-    Optional<Tasks> findById(String id);
-//    Optional<Tasks> findByTitle()
-    List<Tasks> findAllByAssignee(String assignee);
+public interface TaskRepository extends CrudRepository<Task, String> {
+    Optional<Task> findById(String id);
+//    Optional<Task> findByTitle()
+    List<Task> findAllByAssignee(String assignee);
 }

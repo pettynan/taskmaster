@@ -7,23 +7,16 @@ import java.util.UUID;
 
 
 @DynamoDBTable(tableName = "Tasks")
-public class Tasks {
+public class Task {
     private String id;
     private String title;
     private String description;
     private String status;
     private String assignee;
 
-    public Tasks() {}
+    public Task() {}
 
-//    public Tasks(String title, String description) {
-//        this.title = title;
-//        this.description = description;
-//        this.assignee = "NOT ASSIGNED";
-//        this.status = "Available";
-//    }
-
-    public Tasks(String title, String description, Optional<String> assignee) {
+    public Task(String title, String description, Optional<String> assignee) {
         this.title = title;
         this.description = description;
 
