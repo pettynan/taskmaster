@@ -2,6 +2,7 @@ package com.tynan.taskmaster.taskmaster;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -11,13 +12,28 @@ public class Tasks {
     private String title;
     private String description;
     private String status;
+    private String assignee;
 
     public Tasks() {}
 
-    public Tasks(String title, String description) {
+//    public Tasks(String title, String description) {
+//        this.title = title;
+//        this.description = description;
+//        this.assignee = "NOT ASSIGNED";
+//        this.status = "Available";
+//    }
+
+    public Tasks(String title, String description, Optional<String> assignee) {
         this.title = title;
         this.description = description;
-        this.status = "Available";
+
+        if (assignee.isPresent()) {
+            this.assignee = assignee.get();
+            this.status = "Assigned";
+        } else {
+            this.assignee = "NOT ASSIGNED";
+            this.status = "Available";
+        }
     }
 
     @DynamoDBHashKey
@@ -55,5 +71,14 @@ public class Tasks {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @DynamoDBAttribute
+    public String getAssignee() {
+        return assignee;
+    }
+
+    public void setAssignee(String assignee) {
+        this.assignee = assignee;
     }
 }

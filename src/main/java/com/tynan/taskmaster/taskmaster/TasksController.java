@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,17 +18,16 @@ public class TasksController {
     TasksRepository tasksRepository;
 
     @GetMapping("/tasks")
-    public List getTasks() {
-
+    public List getAllTasks() {
         return (List)tasksRepository.findAll();
     }
 
     @PostMapping("/tasks")
-    public RedirectView createTask(String title, String description) {
-        Tasks newTask = new Tasks(title, description);
+    public Tasks createTask(String title, String description, Optional<String> assignee) {
+        Tasks newTask = new Tasks(title, description, assignee);
 
         tasksRepository.save(newTask);
-        return new RedirectView("/tasks");
+        return newTask;
     }
 
     @PutMapping("/tasks/{id}/state")
@@ -56,5 +56,21 @@ public class TasksController {
         }
     }
 
+
+    @GetMapping("/users/{name}/tasks")
+    public List<Tasks> getTasksByAssignee(@PathVariable String name) {
+        return tasksRepository.findAllByAssignee(name);
+    }
+
+    @PutMapping("/tasks/{id}/assign/{assignee}")
+    public Tasks assignTask(@PathVariable String id,
+                             @PathVariable String assignee) {
+        Tasks selectedTask = tasksRepository.findById(id).get();
+        selectedTask.setAssignee(assignee);
+        selectedTask.setStatus("Assigned");
+        tasksRepository.save(selectedTask);
+
+        return selectedTask;
+    }
 
 }
