@@ -10,8 +10,8 @@ deployed at http://taskmaster-env.f3vxumqd2q.us-west-2.elasticbeanstalk.com
   /tasks/{id}/assign/{assignee} - takes PUT request, assigns specified name (assignee) to the task with specified id.
 
 ## Technologies used
-  AWS DynamoDB
-  AWS ElasticBeanstalk
-  Spring
+  AWS DynamoDB<br/>
+  AWS ElasticBeanstalk<br/>
+  Spring<br/>
   Gradle
   
