@@ -1,4 +1,4 @@
-package com.tynan.taskmaster.taskmaster;
+package com.tynan.taskmaster.taskmaster.Model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 
@@ -6,13 +6,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 
-@DynamoDBTable(tableName = "Tasks")
+@DynamoDBTable(tableName = "taskmaster")
 public class Task {
     private String id;
     private String title;
     private String description;
     private String status;
     private String assignee;
+    private String image;
 
     public Task() {}
 
@@ -73,5 +74,14 @@ public class Task {
 
     public void setAssignee(String assignee) {
         this.assignee = assignee;
+    }
+
+    @DynamoDBAttribute
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

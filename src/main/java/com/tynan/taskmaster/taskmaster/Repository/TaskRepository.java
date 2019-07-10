@@ -1,5 +1,6 @@
-package com.tynan.taskmaster.taskmaster;
+package com.tynan.taskmaster.taskmaster.Repository;
 
+import com.tynan.taskmaster.taskmaster.Model.Task;
 import org.socialsignin.spring.data.dynamodb.repository.EnableScan;
 import org.springframework.data.repository.CrudRepository;
 

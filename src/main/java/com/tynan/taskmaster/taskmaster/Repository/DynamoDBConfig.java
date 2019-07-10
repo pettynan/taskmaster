@@ -1,4 +1,4 @@
-package com.tynan.taskmaster.taskmaster;
+package com.tynan.taskmaster.taskmaster.Repository;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
