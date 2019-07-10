@@ -12,6 +12,7 @@ public class TaskController {
     @Autowired
     TaskRepository taskRepository;
 
+    @CrossOrigin
     @GetMapping("/tasks")
     public List getAllTasks() {
         return (List) taskRepository.findAll();
@@ -25,8 +26,9 @@ public class TaskController {
         return newTask;
     }
 
+    @CrossOrigin
     @PutMapping("/tasks/{id}/state")
-    public String advanceTaskStatus(@PathVariable String id) {
+    public Task advanceTaskStatus(@PathVariable String id) {
         Task selectedTask = taskRepository.findById(id).get();
         String currentState = selectedTask.getStatus();
         
@@ -34,20 +36,20 @@ public class TaskController {
             case "Available":
                 selectedTask.setStatus("Assigned");
                 taskRepository.save(selectedTask);
-                return "Task status was set to 'Assigned'.";
+                return selectedTask;
 
             case "Assigned":
                 selectedTask.setStatus("Accepted");
                 taskRepository.save(selectedTask);
-                return "Task status was set to 'Accepted'.";
+                return selectedTask;
 
             case "Accepted":
                 selectedTask.setStatus("Finished");
                 taskRepository.save(selectedTask);
-                return "Task status was set to 'Finished'.";
+                return selectedTask;
 
             default:
-                return "Task is already Finished!";
+                return selectedTask;
         }
     }
 
@@ -67,5 +69,13 @@ public class TaskController {
 
         return selectedTask;
     }
+
+//    @CrossOrigin
+//    @PostMapping("/tasks/{id}/images")
+//    public Task addImage(@PathVariable String id) {
+//        Task selectedTask = taskRepository.findById(id).get();
+//        // FINISH THIS ROUTE
+//        return null;
+//    }
 
 }
