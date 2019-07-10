@@ -1,18 +1,29 @@
-package com.tynan.taskmaster.taskmaster;
+package com.tynan.taskmaster.taskmaster.Controller;
 
+import com.tynan.taskmaster.taskmaster.Model.Task;
+import com.tynan.taskmaster.taskmaster.Repository.S3Client;
+import com.tynan.taskmaster.taskmaster.Repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin
 @RestController
 public class TaskController {
+
+    private S3Client s3Client;
 
     @Autowired
     TaskRepository taskRepository;
 
-    @CrossOrigin
+    @Autowired
+    TaskController(S3Client s3Client) {
+        this.s3Client = s3Client;
+    }
+
     @GetMapping("/tasks")
     public List getAllTasks() {
         return (List) taskRepository.findAll();
@@ -26,7 +37,6 @@ public class TaskController {
         return newTask;
     }
 
-    @CrossOrigin
     @PutMapping("/tasks/{id}/state")
     public Task advanceTaskStatus(@PathVariable String id) {
         Task selectedTask = taskRepository.findById(id).get();
@@ -70,12 +80,16 @@ public class TaskController {
         return selectedTask;
     }
 
-//    @CrossOrigin
-//    @PostMapping("/tasks/{id}/images")
-//    public Task addImage(@PathVariable String id) {
-//        Task selectedTask = taskRepository.findById(id).get();
-//        // FINISH THIS ROUTE
-//        return null;
-//    }
+    @PostMapping("/tasks/{id}/images")
+    public Task uploadImage(@PathVariable String id,
+                            @RequestPart(value = "file") MultipartFile file) {
+        String image = this.s3Client.uploadFile(file);
+        Task selectedTask = taskRepository.findById(id).get();
+
+        selectedTask.setImage(image);
+        taskRepository.save(selectedTask);
+
+        return selectedTask;
+    }
 
 }
